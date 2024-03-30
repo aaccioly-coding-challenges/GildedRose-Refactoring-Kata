@@ -18,29 +18,29 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-    # Configure Gradle for optimal use in GiHub Actions, including caching of downloaded dependencies.
-    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-      with:
-        build-scan-publish: true
-        build-scan-terms-of-service-url: "https://gradle.com/terms-of-service"
-        build-scan-terms-of-service-agree: "yes"
-        add-job-summary-as-pr-comment: always
+      # Configure Gradle for optimal use in GiHub Actions, including caching of downloaded dependencies.
+      # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+        with:
+          build-scan-publish: true
+          build-scan-terms-of-service-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-service-agree: "yes"
+          add-job-summary-as-pr-comment: always
 
-    - name: Build with Gradle Wrapper
-      run: Java/gradlew build -P Java --scan
+      - name: Build with Gradle Wrapper
+        run: Java/gradlew build -p Java --scan
 
-    - name: Upload build reports
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: build-reports
-        path: Java/build/reports/
+      - name: Upload build reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: build-reports
+          path: Java/build/reports/
