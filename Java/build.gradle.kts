@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("com.adarshr.test-logger") version "4.0.0"
+    jacoco
 }
 
 repositories {
@@ -39,3 +40,45 @@ tasks.register<JavaExec>("texttest") {
     classpath = sourceSets.getByName("test").runtimeClasspath
     args(listOf("30"))
 }
+
+val textTestTask = tasks.named("texttest", JavaExec::class).get()
+
+jacoco {
+    applyTo(textTestTask)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+}
+
+tasks.register<JacocoReport>("jacocoTextTestReport") {
+    dependsOn(textTestTask)
+    executionData(textTestTask)
+    sourceSets(sourceSets.main.get())
+}
+
+// task to combine all coverage reports
+tasks.register<JacocoReport>("jacocoCombinedReport") {
+    dependsOn(tasks.test)
+    dependsOn(textTestTask)
+    executionData(
+        fileTree(layout.buildDirectory) {
+            setIncludes(setOf("jacoco/*.exec"))
+        }
+    )
+    sourceSets(sourceSets.main.get())
+}
+
+// common configuration for all jacoco tasks
+tasks.withType<JacocoReport> {
+    reports {
+        csv.required = true
+    }
+}
+
+tasks.register("jacocoAllReports") {
+    dependsOn(tasks.jacocoTestReport)
+    dependsOn(tasks.named("jacocoTextTestReport"))
+    dependsOn(tasks.named("jacocoCombinedReport"))
+}
+
