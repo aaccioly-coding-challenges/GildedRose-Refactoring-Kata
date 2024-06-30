@@ -11,4 +11,4 @@ import sys
 
 args = " ".join(sys.argv[1:])
 TEXTTEST_HOME = os.environ.get("TEXTTEST_HOME", os.getcwd())
-subprocess.run(f"{TEXTTEST_HOME}/Java/gradlew -p {TEXTTEST_HOME}/Java -q text --args {args}", shell=True)
+subprocess.run(f"{TEXTTEST_HOME}/Java/gradlew -p {TEXTTEST_HOME}/Java -q text --args '{args}' --rerun", shell=True)
