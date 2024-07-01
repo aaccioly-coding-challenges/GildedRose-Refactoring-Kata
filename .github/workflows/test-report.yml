@@ -1,0 +1,36 @@
+name: Test Report
+
+on:
+  workflow_run:
+    workflows: [ "Build and Test" ]
+    types:
+      - completed
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-reports
+
+      - name: JUnit report
+        uses: dorny/test-reporter@v1
+        with:
+          name: JUnit tests
+          path: 'build-reports/test-results/test/*.xml'
+          reporter: java-junit
+
+      - name: TextTest report
+        uses: dorny/test-reporter@v1
+        with:
+          name: TextTest tests
+          path: 'build-reports/test-results/texttest/**/*.xml'
+          reporter: java-junit
+
