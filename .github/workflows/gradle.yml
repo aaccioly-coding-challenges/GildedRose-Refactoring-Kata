@@ -35,7 +35,10 @@ jobs:
           add-job-summary-as-pr-comment: always
 
       - name: Build with Gradle Wrapper
-        run: Java/gradlew -p Java build
+        run: Java/gradlew -p Java build -x test
+
+      - name: Run JUnit tests
+        run: Java/gradlew -p Java test
 
       - name: Run coverage report
         run: Java/gradlew -p Java jacocoAllReports
