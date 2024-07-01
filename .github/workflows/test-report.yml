@@ -15,22 +15,19 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-reports
-
       - name: JUnit report
         uses: dorny/test-reporter@v1
         with:
+          artifact: build-reports
           name: JUnit tests
-          path: 'build-reports/test-results/test/*.xml'
+          path: 'test-results/test/*.xml'
           reporter: java-junit
 
       - name: TextTest report
         uses: dorny/test-reporter@v1
         with:
+          artifact: build-reports
           name: TextTest tests
-          path: 'build-reports/test-results/texttest/**/*.xml'
+          path: 'test-results/texttest/**/*.xml'
           reporter: java-junit
 
