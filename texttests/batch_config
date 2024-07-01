@@ -1,0 +1,5 @@
+[batch_external_format]
+continuous:junit
+[batch_external_folder]
+continuous:$TEXTTEST_HOME/Java/build/test-results/texttest
+

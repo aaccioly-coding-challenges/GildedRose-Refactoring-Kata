@@ -1,7 +1,7 @@
 full_name:Gilded Rose Refactoring Kata
 
 # set your preferred editor and diff tool.
-view_program:bat
+view_program:cat
 diff_program:diff
 
 # Settings for the Python version
@@ -60,5 +60,7 @@ interpreter:python
 
 # Settings for the OCaml version
 # executable:${TEXTTEST_HOME}/ocaml/_build/default/bin/main.exe
+
+import_config_file:texttests/batch_config
 
 filename_convention_scheme:standard
