@@ -1,0 +1,92 @@
+name: Publish Test Reports
+
+on:
+  workflow_run:
+    workflows: [ "Build and Test" ]
+    types:
+      - completed
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  junit-check:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion != 'skipped'
+    steps:
+      - name: Publish JUnit report
+        uses: dorny/test-reporter@v1
+        with:
+          artifact: build-reports
+          name: JUnit Test Results
+          path: 'test-results/test/*.xml'
+          reporter: java-junit
+
+  texttest-check:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion != 'skipped'
+    steps:
+      - name: Publish TextTest report
+        uses: dorny/test-reporter@v1
+        with:
+          artifact: build-reports
+          name: TextTest Test Results
+          path: 'test-results/texttest/**/*.xml'
+          reporter: java-junit
+
+  junit-summary-results:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion != 'skipped'
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Publish JUnit results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          check_name: JUnit Test Results
+          check_run: false
+          # set comment_mode to "always" for pull_request event, set to "off" for all other event types
+          comment_mode: ${{ github.event.workflow_run.event == 'pull_request' && 'always' || 'off' }}
+          commit: ${{ github.event.workflow_run.head_sha }}
+          deduplicate_classes_by_file_name: true
+          event_file: Event File/event.json
+          event_name: ${{ github.event.workflow_run.event }}
+          files: 'build-reports/test-results/test/*.xml'
+          report_individual_runs: true
+          report_suite_logs: any
+          test_file_prefix: +Java/src/test/java/
+
+  texttest-summary-results:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion != 'skipped'
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Publish TextTest results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          check_name: TextTest Test Results
+          check_run: false
+          # set comment_mode to "always" for pull_request event, set to "off" for all other event types
+          comment_mode: ${{ github.event.workflow_run.event == 'pull_request' && 'always' || 'off' }}
+          commit: ${{ github.event.workflow_run.head_sha }}
+          deduplicate_classes_by_file_name: true
+          event_file: Event File/event.json
+          event_name: ${{ github.event.workflow_run.event }}
+          files: 'build-reports/test-results/texttest/**/*.xml'
+          report_individual_runs: true
+          report_suite_logs: any
+          test_file_prefix: +texttest/
+
+
