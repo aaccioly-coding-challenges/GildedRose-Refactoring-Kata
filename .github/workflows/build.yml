@@ -71,3 +71,13 @@ jobs:
             Java/build/reports/
             Java/build/jacoco/
             Java/build/test-results/
+
+  event_file:
+    name: "Event File"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Event File
+          path: ${{ github.event_path }}

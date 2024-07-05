@@ -19,9 +19,10 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-reports
           github-token: ${{ github.token }}
           run-id: ${{ github.event.workflow_run.id }}
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: JUnit report
         uses: dorny/test-reporter@v1
