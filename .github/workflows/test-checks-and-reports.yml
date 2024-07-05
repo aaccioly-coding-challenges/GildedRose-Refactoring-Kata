@@ -37,7 +37,7 @@ jobs:
           path: 'test-results/texttest/**/*.xml'
           reporter: java-junit
 
-  junit-summary-results:
+  junit-results:
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion != 'skipped'
     steps:
@@ -63,7 +63,7 @@ jobs:
           report_suite_logs: any
           test_file_prefix: +Java/src/test/java/
 
-  texttest-summary-results:
+  texttest-results:
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion != 'skipped'
     steps:
