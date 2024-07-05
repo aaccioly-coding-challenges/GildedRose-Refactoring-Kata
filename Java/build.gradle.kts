@@ -73,6 +73,7 @@ tasks.register<JacocoReport>("jacocoCombinedReport") {
 tasks.withType<JacocoReport> {
     reports {
         csv.required = true
+        xml.required = true
     }
 }
 

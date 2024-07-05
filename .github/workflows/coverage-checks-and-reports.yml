@@ -1,0 +1,71 @@
+name: Publish Coverage Reports
+
+on:
+  workflow_run:
+    workflows: [ "Build and Test" ]
+    types:
+      - completed
+
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  junit-coverage-check:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion != 'skipped'
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-reports
+          github-token: ${{ github.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: JaCoCo JUnit Code Coverage Report
+        id: jacoco_reporter
+        uses: PavanMudigonda/jacoco-reporter@v5.0
+        with:
+          ## TODO: Change to combined report once Olaf is done with unit tests
+          coverage_results_path: reports/jacoco/test/jacocoTestReport.xml
+          coverage_report_name: JUnit Coverage
+          coverage_report_title: JUnit
+          fail_below_threshold: true
+          minimum_coverage: 80
+
+      - name: Upload JUnit Code Coverage Artifacts
+        if: '!cancelled()'
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-code-coverage-report-markdown
+          path: '*/coverage-results.md'
+
+  texttest-coverage-check: # TODO: Remove once Olaf is done with unit tests
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion != 'skipped'
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-reports
+          github-token: ${{ github.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: JaCoCo TextTest Code Coverage Report
+        id: jacoco_reporter
+        uses: PavanMudigonda/jacoco-reporter@v5.0
+        with:
+          coverage_results_path: reports/jacoco/jacocoTextTestReport/jacocoTextTestReport.xml
+          coverage_report_name: TextTest Coverage
+          coverage_report_title: TextTest
+          fail_below_threshold: true
+          minimum_coverage: 80
+
+      - name: Upload TextTest Code Coverage Artifacts
+        if: '!cancelled()'
+        uses: actions/upload-artifact@v4
+        with:
+          name: texttest-code-coverage-report-markdown
+          path: '*/coverage-results.md'
