@@ -13,6 +13,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -72,8 +73,8 @@ jobs:
             Java/build/jacoco/
             Java/build/test-results/
 
-  event_file:
-    name: "Event File"
+  upload-event-file:
+    name: Upload Event File
     runs-on: ubuntu-latest
     steps:
       - name: Upload
