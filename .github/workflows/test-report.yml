@@ -7,14 +7,22 @@ on:
       - completed
 
 permissions:
-  contents: read
   actions: read
   checks: write
+  contents: read
+  pull-requests: write
 
 jobs:
   report:
     runs-on: ubuntu-latest
     steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-reports
+          github-token: ${{ github.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+
       - name: JUnit report
         uses: dorny/test-reporter@v1
         with:

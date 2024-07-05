@@ -52,14 +52,17 @@ jobs:
 
       - name: Run JUnit tests
         run: Java/gradlew -p Java test
+        continue-on-error: true
 
       - name: Run TextTest suite
         run: texttest -a gr -b continuous -zen
+        continue-on-error: true
 
       - name: Run coverage report
         run: Java/gradlew -p Java jacocoAllReports
+        continue-on-error: true
 
-      - name: Upload build reports
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         if: '!cancelled()'
         with:
