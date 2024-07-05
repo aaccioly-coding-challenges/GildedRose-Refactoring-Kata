@@ -72,8 +72,7 @@ jobs:
             Java/build/jacoco/
             Java/build/test-results/
 
-  event_file:
-    name: "Event File"
+  upload-event-file:
     runs-on: ubuntu-latest
     steps:
       - name: Upload
