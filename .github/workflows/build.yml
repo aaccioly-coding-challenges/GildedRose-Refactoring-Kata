@@ -67,6 +67,16 @@ jobs:
         run: Java/gradlew -p Java jacocoAllReports
         continue-on-error: true
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        if: '!cancelled()'
+        with:
+          name: build-reports
+          path: |
+            Java/build/reports/
+            Java/build/jacoco/
+            Java/build/test-results/
+
       # TODO: Move to coverage-checks-and-reports once jacoco-report accepts workflow_run event
       - name: Add JUnit coverage to PR
         if: ${{ !cancelled() && github.event_name == 'pull_request' }}
@@ -85,16 +95,6 @@ jobs:
           paths: Java/build/reports/jacoco/jacocoTextTestReport/jacocoTextTestReport.xml
           title: '# :coconut: TextTest Coverage Report'
           update-comment: true
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        if: '!cancelled()'
-        with:
-          name: build-reports
-          path: |
-            Java/build/reports/
-            Java/build/jacoco/
-            Java/build/test-results/
 
   upload-event-file:
     name: Upload Event File
