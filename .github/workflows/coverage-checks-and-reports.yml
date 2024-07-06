@@ -23,6 +23,8 @@ jobs:
           name: build-reports
           github-token: ${{ github.token }}
           run-id: ${{ github.event.workflow_run.id }}
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: JaCoCo JUnit Code Coverage Report
         id: jacoco_reporter
@@ -45,6 +47,8 @@ jobs:
           name: build-reports
           github-token: ${{ github.token }}
           run-id: ${{ github.event.workflow_run.id }}
+      - name: Display structure of downloaded files
+        run: ls -R
 
       - name: JaCoCo TextTest Code Coverage Report
         id: jacoco_reporter
