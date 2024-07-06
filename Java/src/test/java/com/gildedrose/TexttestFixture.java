@@ -32,8 +32,7 @@ public class TexttestFixture {
             System.out.println();
             app.updateQuality();
         }
-
-        System.out.println("Extra broken line 2");
+        
     }
 
 }
