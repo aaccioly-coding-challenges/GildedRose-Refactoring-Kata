@@ -28,7 +28,7 @@ jobs:
 
       - name: JaCoCo JUnit Code Coverage Report
         id: jacoco_reporter
-        uses: PavanMudigonda/jacoco-reporter@v5.0
+        uses: PavanMudigonda/jacoco-reporter@v5.1
         with:
           ## TODO: Change to combined report once Olaf is done with unit tests
           coverage_results_path: reports/jacoco/test/jacocoTestReport.xml
@@ -50,7 +50,7 @@ jobs:
 
       - name: JaCoCo TextTest Code Coverage Report
         id: jacoco_reporter
-        uses: PavanMudigonda/jacoco-reporter@v5.0
+        uses: PavanMudigonda/jacoco-reporter@v5.1
         with:
           coverage_results_path: reports/jacoco/jacocoTextTestReport/jacocoTextTestReport.xml
           coverage_report_name: TextTest Coverage
