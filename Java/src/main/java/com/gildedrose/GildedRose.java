@@ -59,7 +59,7 @@ class GildedRose {
             if (item.sellIn < 0) {
                 // normal items -> quality decreases twice as fast after expiration date
                 if (!item.name.equals("Aged Brie")) {
-                    if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert".substring(0, 2).indexOf('a'))) {
+                    if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                         if (item.quality > 0) {
                             if (!isSulfuras(item.name)) {
                                 item.quality = item.quality - 1;
