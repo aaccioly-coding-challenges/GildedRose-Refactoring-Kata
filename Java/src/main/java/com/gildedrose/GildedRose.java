@@ -1,13 +1,13 @@
 package com.gildedrose;
 
 class GildedRose {
-    Item[] items;
+    private final Item[] items;
 
-    public GildedRose(Item[] items) {
+    public GildedRose(Item... items) {
         this.items = items;
     }
 
-    public static boolean isSulfuras(String s) {
+    public static boolean isLegendary(String s) {
         return s.startsWith("Sulfuras");
     }
 
@@ -21,59 +21,60 @@ class GildedRose {
 
             // normal case - quality is diminished by 1
             //            switch(Classifier.classify(item[i]))
-            if (!item.name.equals("Aged Brie")
-                && !item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                if (item.quality > 0) {
-                    if (!isSulfuras(item.name)) {
-                        item.quality = item.quality - 1;
+            updateItem(item);
+        }
+    }
+
+    private void updateItem(Item item) {
+        if (isLegendary(item.name)) {
+            return;
+        }
+        if (!item.name.equals("Aged Brie")
+            && !item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+            if (item.quality > 0) {
+                item.quality = item.quality - 1;
+            }
+        }
+
+        // Aged Brie / Backstage when sellIn <= 10 -> quality improves
+        else {
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
+
+                if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+                    if (item.sellIn < 11) {
+                        if (item.quality < 50) {
+                            item.quality = item.quality + 1;
+                        }
+                    }
+
+                    if (item.sellIn < 6) {
+                        if (item.quality < 50) {
+                            item.quality = item.quality + 1;
+                        }
                     }
                 }
             }
+        }
 
-            // Aged Brie / Backstage when sellIn <= 10 -> quality improves
+        // all items except Sulfuras -> decrease sellIn
+        item.sellIn = item.sellIn - 1;
+
+        if (item.sellIn < 0) {
+            // normal items -> quality decreases twice as fast after expiration date
+            if (!item.name.equals("Aged Brie")) {
+                if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+                    if (item.quality > 0) {
+                        item.quality = item.quality - 1;
+                    }
+                } else {
+                    item.quality = 0;
+                }
+            }
+            // quality of Brie increases twice as fast
             else {
                 if (item.quality < 50) {
                     item.quality = item.quality + 1;
-
-                    if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
-
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-
-            // all items except Sulfuras -> decrease sellIn
-            if (!isSulfuras(item.name)) {
-                item.sellIn = item.sellIn - 1;
-            }
-
-            if (item.sellIn < 0) {
-                // normal items -> quality decreases twice as fast after expiration date
-                if (!item.name.equals("Aged Brie")) {
-                    if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (item.quality > 0) {
-                            if (!isSulfuras(item.name)) {
-                                item.quality = item.quality - 1;
-                            }
-                        }
-                    } else {
-                        item.quality = item.quality - item.quality;
-                    }
-                }
-                // quality of Brie increases twice as fast
-                else {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1;
-                    }
                 }
             }
         }
