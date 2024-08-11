@@ -53,11 +53,38 @@ class GildedRoseTest {
     @Nested
     class AgedBrie {
 
+        private final Item agedBrie = new Item("Aged Brie", 2, 0);
 
         @DisplayName("category is aged brie")
         @Test
         void testIsAgedBrie() {
             assertThat(GildedRose.isAgedBrie("Aged Brie")).isTrue();
+        }
+
+        @DisplayName("quality increases by 1")
+        @Test
+        void testAgedBrieQualityIncreasesBy1() {
+            GildedRose app = createGildedRose(agedBrie);
+            app.updateQuality();
+            assertThat(agedBrie.quality).isEqualTo(1);
+        }
+
+        @DisplayName("quality increases by 2 after sellIn date")
+        @Test
+        void testAgedBrieQualityIncreasesBy2AfterSellIn() {
+            agedBrie.sellIn = 0;
+            GildedRose app = createGildedRose(agedBrie);
+            app.updateQuality();
+            assertThat(agedBrie.quality).isEqualTo(2);
+        }
+
+        @DisplayName("quality never exceeds 50")
+        @Test
+        void testAgedBrieQualityNeverExceeds50() {
+            agedBrie.quality = 50;
+            GildedRose app = createGildedRose(agedBrie);
+            app.updateQuality();
+            assertThat(agedBrie.quality).isEqualTo(50);
         }
     }
 

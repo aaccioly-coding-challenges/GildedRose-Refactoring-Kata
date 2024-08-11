@@ -32,16 +32,20 @@ class GildedRose {
     private void updateItem(Item item) {
         if (isLegendary(item.name)) {
             return;
+        } else if (isAgedBrie(item.name)) {
+            item.sellIn--;
+            if (item.quality < 50) {
+                var qualityDelta = item.sellIn < 0 ? 2 : 1;
+                item.quality += qualityDelta;
+            }
+            return;
         }
-        if (!item.name.equals("Aged Brie")
-            && !item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+
+        if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
             if (item.quality > 0) {
                 item.quality = item.quality - 1;
             }
-        }
-
-        // Aged Brie / Backstage when sellIn <= 10 -> quality improves
-        else {
+        } else {
             if (item.quality < 50) {
                 item.quality = item.quality + 1;
 
@@ -66,20 +70,12 @@ class GildedRose {
 
         if (item.sellIn < 0) {
             // normal items -> quality decreases twice as fast after expiration date
-            if (!item.name.equals("Aged Brie")) {
-                if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                    if (item.quality > 0) {
-                        item.quality = item.quality - 1;
-                    }
-                } else {
-                    item.quality = 0;
+            if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+                if (item.quality > 0) {
+                    item.quality = item.quality - 1;
                 }
-            }
-            // quality of Brie increases twice as fast
-            else {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
+            } else {
+                item.quality = 0;
             }
         }
     }
