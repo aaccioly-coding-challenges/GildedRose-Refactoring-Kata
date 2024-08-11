@@ -127,6 +127,34 @@ class GildedRoseTest {
             app.updateQuality();
             assertThat(backStagePass.quality).isEqualTo(13);
         }
+
+        @DisplayName("quality drops to 0 after the concert")
+        @Test
+        void qualityDropsTo0AfterTheConcert() {
+            backStagePass.sellIn = 0;
+            GildedRose app = createGildedRose(backStagePass);
+            app.updateQuality();
+            assertThat(backStagePass.quality).isEqualTo(0);
+        }
+
+        @DisplayName("quality never goes below 0")
+        @Test
+        void qualityNeverGoesBelow0() {
+            backStagePass.sellIn = 0;
+            backStagePass.quality = 0;
+            GildedRose app = createGildedRose(backStagePass);
+            app.updateQuality();
+            assertThat(backStagePass.quality).isEqualTo(0);
+        }
+
+        @DisplayName("quality never exceeds 50")
+        @Test
+        void qualityNeverExceeds50() {
+            backStagePass.quality = 50;
+            GildedRose app = createGildedRose(backStagePass);
+            app.updateQuality();
+            assertThat(backStagePass.quality).isEqualTo(50);
+        }
     }
 
     @Nested
