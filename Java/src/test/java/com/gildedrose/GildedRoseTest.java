@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -8,10 +9,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class GildedRoseTest {
 
-    @DisplayName("isSulfuras method returns false for items not named Sulfuras")
+    @DisplayName("normal item is not legendary nor aged brie")
     @Test
     void testIsNormalItem() {
-        assertThat(GildedRose.isLegendary("Foo..")).isFalse();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(GildedRose.isLegendary("Foo")).isFalse();
+            softly.assertThat(GildedRose.isAgedBrie("Foo")).isFalse();
+        });
     }
 
     @Nested
@@ -44,6 +48,17 @@ class GildedRoseTest {
             assertThat(sulfuras.sellIn).isEqualTo(-1);
         }
 
+    }
+
+    @Nested
+    class AgedBrie {
+
+
+        @DisplayName("category is aged brie")
+        @Test
+        void testIsAgedBrie() {
+            assertThat(GildedRose.isAgedBrie("Aged Brie")).isTrue();
+        }
     }
 
     public GildedRose createGildedRose(Item item) {

@@ -7,8 +7,12 @@ class GildedRose {
         this.items = items;
     }
 
-    public static boolean isLegendary(String s) {
-        return s.startsWith("Sulfuras");
+    public static boolean isLegendary(String itemName) {
+        return itemName.startsWith("Sulfuras");
+    }
+
+    public static boolean isAgedBrie(String itemName) {
+        return itemName.equals("Aged Brie");
     }
 
     public void updateQuality() {
