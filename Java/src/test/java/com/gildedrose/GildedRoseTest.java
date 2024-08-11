@@ -9,12 +9,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class GildedRoseTest {
 
-    @DisplayName("normal item is not legendary nor aged brie")
+    @DisplayName("normal item is not legendary nor aged brie nor backstage passes")
     @Test
     void testIsNormalItem() {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(GildedRose.isLegendary("Foo")).isFalse();
             softly.assertThat(GildedRose.isAgedBrie("Foo")).isFalse();
+            softly.assertThat(GildedRose.isBackStagePass("Foo")).isFalse();
         });
     }
 
@@ -26,7 +27,7 @@ class GildedRoseTest {
         @DisplayName("category is legendary")
         @Test
         void testIsLegendary() {
-            assertThat(GildedRose.isLegendary("Sulfuras..")).isTrue();
+            assertThat(GildedRose.isLegendary(sulfuras.name)).isTrue();
         }
 
         @DisplayName("quality stays at 80 and it never alters")
@@ -58,7 +59,7 @@ class GildedRoseTest {
         @DisplayName("category is aged brie")
         @Test
         void testIsAgedBrie() {
-            assertThat(GildedRose.isAgedBrie("Aged Brie")).isTrue();
+            assertThat(GildedRose.isAgedBrie(agedBrie.name)).isTrue();
         }
 
         @DisplayName("quality increases by 1")
@@ -85,6 +86,20 @@ class GildedRoseTest {
             GildedRose app = createGildedRose(agedBrie);
             app.updateQuality();
             assertThat(agedBrie.quality).isEqualTo(50);
+        }
+    }
+
+    @Nested
+    class BackstagePass {
+        private final Item backStagePass = new Item(
+            "Backstage passes to a TAFKAL80ETC concert",
+            30,
+            10);
+
+        @DisplayName("is a Backstage pass")
+        @Test
+        void isBackstagePass() {
+            assertThat(GildedRose.isBackStagePass(backStagePass.name)).isTrue();
         }
     }
 

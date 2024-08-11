@@ -15,6 +15,10 @@ class GildedRose {
         return itemName.equals("Aged Brie");
     }
 
+    public static boolean isBackStagePass(String itemName) {
+        return itemName.startsWith("Backstage passes");
+    }
+
     public void updateQuality() {
         for (Item item : items) {
 
