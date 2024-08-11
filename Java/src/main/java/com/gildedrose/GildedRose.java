@@ -41,18 +41,14 @@ class GildedRose {
         item.sellIn--;
 
         if (isAgedBrie(item.name)) {
-            if (item.quality < 50) {
-                var qualityDelta = item.sellIn < 0 ? 2 : 1;
-                item.quality += qualityDelta;
-            }
+            var qualityDelta = item.sellIn < 0 ? 2 : 1;
+            item.quality = Math.min(50, item.quality + qualityDelta);
         } else if (isBackStagePass(item.name)) {
             if (item.sellIn < 0) {
                 item.quality = 0;
             } else {
-                if (item.quality < 50) {
-                    var qualityDelta = item.sellIn < 5 ? 3 : item.sellIn < 10 ? 2 : 1;
-                    item.quality += qualityDelta;
-                }
+                var qualityDelta = item.sellIn < 5 ? 3 : item.sellIn < 10 ? 2 : 1;
+                item.quality = Math.min(50, item.quality + qualityDelta);
             }
         } else { // regular item
             var qualityDelta = item.sellIn < 0 ? 2 : 1;
