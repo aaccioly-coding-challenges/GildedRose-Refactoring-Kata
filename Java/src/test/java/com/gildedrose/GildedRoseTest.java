@@ -101,6 +101,32 @@ class GildedRoseTest {
         void isBackstagePass() {
             assertThat(GildedRose.isBackStagePass(backStagePass.name)).isTrue();
         }
+
+        @DisplayName("quality increases by 1 when sellIn is greater than 10")
+        @Test
+        void qualityIncreasesBy1WhenSellInIsGreaterThan10() {
+            GildedRose app = createGildedRose(backStagePass);
+            app.updateQuality();
+            assertThat(backStagePass.quality).isEqualTo(11);
+        }
+
+        @DisplayName("quality increases by 2 when sellIn is between 10 and 6")
+        @Test
+        void qualityIncreasesBy2WhenSellInIsBetween10And6() {
+            backStagePass.sellIn = 10;
+            GildedRose app = createGildedRose(backStagePass);
+            app.updateQuality();
+            assertThat(backStagePass.quality).isEqualTo(12);
+        }
+
+        @DisplayName("quality increases by 3 when sellIn is between 5 and 0")
+        @Test
+        void qualityIncreasesBy3WhenSellInIsBetween5And0() {
+            backStagePass.sellIn = 5;
+            GildedRose app = createGildedRose(backStagePass);
+            app.updateQuality();
+            assertThat(backStagePass.quality).isEqualTo(13);
+        }
     }
 
     public GildedRose createGildedRose(Item item) {

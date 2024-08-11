@@ -43,41 +43,25 @@ class GildedRose {
                 item.quality += qualityDelta;
             }
             return;
-        }
-
-        if (!isBackStagePass(item.name)) {
-            if (item.quality > 0) {
-                item.quality = item.quality - 1;
-            }
-        } else {
-            if (item.quality < 50) {
-                item.quality = item.quality + 1;
-
-                if (item.sellIn < 11) {
-                    if (item.quality < 50) {
-                        item.quality = item.quality + 1;
-                    }
-                    if (item.sellIn < 6) {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1;
-                        }
-                    }
+        } else if (isBackStagePass(item.name)) {
+            item.sellIn--;
+            if (item.sellIn < 0) {
+                item.quality = 0;
+            } else {
+                if (item.quality < 50) {
+                    var qualityDelta = item.sellIn < 5 ? 3 : item.sellIn < 10 ? 2 : 1;
+                    item.quality += qualityDelta;
                 }
             }
+            return;
         }
 
         // all items except Sulfuras -> decrease sellIn
         item.sellIn = item.sellIn - 1;
 
-        if (item.sellIn < 0) {
-            // normal items -> quality decreases twice as fast after expiration date
-            if (!isBackStagePass(item.name)) {
-                if (item.quality > 0) {
-                    item.quality = item.quality - 1;
-                }
-            } else {
-                item.quality = 0;
-            }
+        if (item.quality > 0) {
+            var qualityDelta = item.sellIn < 0 ? 2 : 1;
+            item.quality = item.quality - qualityDelta;
         }
     }
 }
