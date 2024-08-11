@@ -36,15 +36,16 @@ class GildedRose {
     private void updateItem(Item item) {
         if (isLegendary(item.name)) {
             return;
-        } else if (isAgedBrie(item.name)) {
-            item.sellIn--;
+        }
+
+        item.sellIn--;
+
+        if (isAgedBrie(item.name)) {
             if (item.quality < 50) {
                 var qualityDelta = item.sellIn < 0 ? 2 : 1;
                 item.quality += qualityDelta;
             }
-            return;
         } else if (isBackStagePass(item.name)) {
-            item.sellIn--;
             if (item.sellIn < 0) {
                 item.quality = 0;
             } else {
@@ -53,15 +54,9 @@ class GildedRose {
                     item.quality += qualityDelta;
                 }
             }
-            return;
-        }
-
-        // all items except Sulfuras -> decrease sellIn
-        item.sellIn = item.sellIn - 1;
-
-        if (item.quality > 0) {
+        } else { // regular item
             var qualityDelta = item.sellIn < 0 ? 2 : 1;
-            item.quality = item.quality - qualityDelta;
+            item.quality = Math.max(0, item.quality - qualityDelta);
         }
     }
 }

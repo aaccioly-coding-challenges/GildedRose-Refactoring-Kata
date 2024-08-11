@@ -129,6 +129,45 @@ class GildedRoseTest {
         }
     }
 
+    @Nested
+    class NormalItem {
+        private final Item normalItem = new Item("Foo", 10, 20);
+
+        @DisplayName("quality decreases by 1")
+        @Test
+        void qualityDecreasesBy1() {
+            GildedRose app = createGildedRose(normalItem);
+            app.updateQuality();
+            assertThat(normalItem.quality).isEqualTo(19);
+        }
+
+        @DisplayName("sellIn decreases by 1")
+        @Test
+        void sellInDecreasesBy1() {
+            GildedRose app = createGildedRose(normalItem);
+            app.updateQuality();
+            assertThat(normalItem.sellIn).isEqualTo(9);
+        }
+
+        @DisplayName("quality decreases by 2 after sellIn date")
+        @Test
+        void qualityDecreasesBy2AfterSellIn() {
+            normalItem.sellIn = 0;
+            GildedRose app = createGildedRose(normalItem);
+            app.updateQuality();
+            assertThat(normalItem.quality).isEqualTo(18);
+        }
+
+        @DisplayName("quality never goes below 0")
+        @Test
+        void qualityNeverGoesBelow0() {
+            normalItem.quality = 0;
+            GildedRose app = createGildedRose(normalItem);
+            app.updateQuality();
+            assertThat(normalItem.quality).isEqualTo(0);
+        }
+    }
+
     public GildedRose createGildedRose(Item item) {
         return new GildedRose(item);
     }
