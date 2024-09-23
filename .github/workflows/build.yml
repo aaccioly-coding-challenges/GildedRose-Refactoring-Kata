@@ -80,7 +80,7 @@ jobs:
       # TODO: Move to coverage-checks-and-reports once jacoco-report accepts workflow_run event
       - name: Add JUnit coverage to PR
         if: ${{ !cancelled() && github.event_name == 'pull_request' }}
-        uses: madrapps/jacoco-report@v1.6.1
+        uses: madrapps/jacoco-report@v1.7.1
         with:
           token: ${{ github.token }}
           paths: Java/build/reports/jacoco/test/jacocoTestReport.xml
@@ -89,7 +89,7 @@ jobs:
 
       - name: Add TextTest coverage to PR
         if: ${{ !cancelled() && github.event_name == 'pull_request' }}
-        uses: madrapps/jacoco-report@v1.6.1
+        uses: madrapps/jacoco-report@v1.7.1
         with:
           token: ${{ github.token }}
           paths: Java/build/reports/jacoco/jacocoTextTestReport/jacocoTextTestReport.xml
