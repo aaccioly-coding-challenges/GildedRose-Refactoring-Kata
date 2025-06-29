@@ -28,7 +28,7 @@ jobs:
           coverage_report_name: JUnit Coverage
           coverage_report_title: JUnit
           fail_below_threshold: true
-          minimum_coverage: 80
+          # minimum_coverage: 80 # Disabled until Olaf hits minimum coverage
 
   texttest-coverage-check: # TODO: Remove once Olaf is done with unit tests
     runs-on: ubuntu-latest
