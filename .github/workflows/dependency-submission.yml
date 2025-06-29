@@ -12,14 +12,14 @@ jobs:
     name: Dependency Submission
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4
         with:
           distribution: temurin
           java-version: 21
 
       - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v4
+        uses: gradle/actions/dependency-submission@ac638b010cf58a27ee6c972d7336334ccaf61c96 # v4
         with:
           build-root-directory: Java
           build-scan-publish: true
