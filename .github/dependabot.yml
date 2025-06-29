@@ -1,19 +1,5 @@
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+# This file has been disabled as we're now using Renovate instead of Dependabot
+# See renovate.json in the root directory for the new configuration
 
 version: 2
-updates:
-  - package-ecosystem: "gradle"
-    directory: "/Java"
-    schedule:
-      interval: "weekly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
+updates: []
