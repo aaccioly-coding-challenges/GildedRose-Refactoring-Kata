@@ -1,7 +1,5 @@
 name: Publish Coverage Reports
 
-# Temporarily disabled until https://github.com/Madrapps/jacoco-report/issues/92 is fixed
-
 on:
   workflow_call:
 
