@@ -19,7 +19,6 @@ jobs:
         with:
           name: build-reports
           github-token: ${{ github.token }}
-          run-id: ${{ github.event.workflow_run.id }}
 
       - name: JaCoCo JUnit Code Coverage Report
         id: jacoco_reporter
@@ -41,7 +40,6 @@ jobs:
         with:
           name: build-reports
           github-token: ${{ github.token }}
-          run-id: ${{ github.event.workflow_run.id }}
 
       - name: JaCoCo TextTest Code Coverage Report
         id: jacoco_reporter
@@ -62,7 +60,6 @@ jobs:
         with:
           name: build-reports
           github-token: ${{ github.token }}
-          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Add JUnit coverage to PR
         uses: madrapps/jacoco-report@v1.7.2
@@ -81,7 +78,6 @@ jobs:
         with:
           name: build-reports
           github-token: ${{ github.token }}
-          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Add TextTest coverage to PR
         uses: madrapps/jacoco-report@v1.7.2
