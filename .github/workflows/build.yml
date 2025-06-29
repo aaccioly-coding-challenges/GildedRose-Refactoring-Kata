@@ -77,13 +77,15 @@ jobs:
             Java/build/jacoco/
             Java/build/test-results/
 
-      - name: Call coverage-checks-and-reports workflow
-        if: ${{ !cancelled() }}
-        uses: ./.github/workflows/coverage-checks-and-reports.yml
+  call-coverage-checks:
+    needs: build
+    if: ${{ !cancelled() }}
+    uses: ./.github/workflows/coverage-checks-and-reports.yml
 
-      - name: Call test-checks-and-reports workflow
-        if: ${{ !cancelled() }}
-        uses: ./.github/workflows/test-checks-and-reports.yml
+  call-test-checks:
+    needs: build
+    if: ${{ !cancelled() }}
+    uses: ./.github/workflows/test-checks-and-reports.yml
 
   upload-event-file:
     name: Upload Event File
