@@ -1,5 +1,0 @@
-# This file has been disabled as we're now using Renovate instead of Dependabot
-# See renovate.json in the root directory for the new configuration
-
-version: 2
-updates: []
