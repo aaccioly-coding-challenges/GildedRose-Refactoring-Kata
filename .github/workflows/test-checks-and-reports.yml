@@ -18,7 +18,7 @@ jobs:
     if: github.event.workflow_run.conclusion != 'skipped'
     steps:
       - name: Publish JUnit report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           artifact: build-reports
           name: JUnit Results
@@ -30,7 +30,7 @@ jobs:
     if: github.event.workflow_run.conclusion != 'skipped'
     steps:
       - name: Publish TextTest report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           artifact: build-reports
           name: TextTest Results
