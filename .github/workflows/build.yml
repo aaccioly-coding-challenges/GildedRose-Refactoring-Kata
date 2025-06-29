@@ -77,24 +77,13 @@ jobs:
             Java/build/jacoco/
             Java/build/test-results/
 
-      # TODO: Move to coverage-checks-and-reports once jacoco-report accepts workflow_run event
-      - name: Add JUnit coverage to PR
-        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
-        uses: madrapps/jacoco-report@v1.7.2
-        with:
-          token: ${{ github.token }}
-          paths: Java/build/reports/jacoco/test/jacocoTestReport.xml
-          title: '# :coconut: JUnit Coverage Report'
-          update-comment: true
+      - name: Call coverage-checks-and-reports workflow
+        if: ${{ !cancelled() }}
+        uses: ./.github/workflows/coverage-checks-and-reports.yml
 
-      - name: Add TextTest coverage to PR
-        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
-        uses: madrapps/jacoco-report@v1.7.2
-        with:
-          token: ${{ github.token }}
-          paths: Java/build/reports/jacoco/jacocoTextTestReport/jacocoTextTestReport.xml
-          title: '# :coconut: TextTest Coverage Report'
-          update-comment: true
+      - name: Call test-checks-and-reports workflow
+        if: ${{ !cancelled() }}
+        uses: ./.github/workflows/test-checks-and-reports.yml
 
   upload-event-file:
     name: Upload Event File
