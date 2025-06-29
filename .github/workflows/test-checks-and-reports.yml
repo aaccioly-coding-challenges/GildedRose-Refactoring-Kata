@@ -1,10 +1,7 @@
 name: Publish Test Reports
 
 on:
-  workflow_run:
-    workflows: [ "Build and Test" ]
-    types:
-      - completed
+  workflow_call:
 
 permissions:
   actions: read
@@ -62,6 +59,8 @@ jobs:
           report_individual_runs: true
           report_suite_logs: any
           test_file_prefix: +Java/src/test/java/
+
+
 
   texttest-results:
     runs-on: ubuntu-latest

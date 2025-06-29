@@ -3,10 +3,7 @@ name: Publish Coverage Reports
 # Temporarily disabled until https://github.com/Madrapps/jacoco-report/issues/92 is fixed
 
 on:
-  workflow_run:
-    workflows: [ "Build and Test" ]
-    types:
-      - completed
+  workflow_call:
 
 permissions:
   actions: read
@@ -70,7 +67,7 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
 
       - name: Add JUnit coverage to PR
-        uses: madrapps/jacoco-report@v1.7.1
+        uses: madrapps/jacoco-report@v1.7.2
         with:
           token: ${{ github.token }}
           paths: reports/jacoco/test/jacocoTestReport.xml
@@ -89,7 +86,7 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
 
       - name: Add TextTest coverage to PR
-        uses: madrapps/jacoco-report@v1.7.1
+        uses: madrapps/jacoco-report@v1.7.2
         with:
           token: ${{ github.token }}
           paths: reports/jacoco/jacocoTextTestReport/jacocoTextTestReport.xml
