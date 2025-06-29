@@ -12,7 +12,6 @@ permissions:
 jobs:
   junit-coverage-check:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion != 'skipped'
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -33,7 +32,6 @@ jobs:
 
   texttest-coverage-check: # TODO: Remove once Olaf is done with unit tests
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion != 'skipped'
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -53,7 +51,7 @@ jobs:
 
   junit-coverage-results:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion != 'skipped' && github.event.workflow_run.event == 'pull_request'
+    if: github.event_name == 'pull_request'
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -71,7 +69,7 @@ jobs:
 
   texttest-coverage-results:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion != 'skipped' && github.event.workflow_run.event == 'pull_request'
+    if: github.event_name == 'pull_request'
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
