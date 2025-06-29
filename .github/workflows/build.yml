@@ -80,11 +80,13 @@ jobs:
             Java/build/test-results/
 
   call-coverage-checks:
+    name: Coverage checks
     needs: build
     if: ${{ !cancelled() }}
     uses: ./.github/workflows/coverage-checks-and-reports.yml
 
   call-test-checks:
+    name: Test checks
     needs: build
     if: ${{ !cancelled() }}
     uses: ./.github/workflows/test-checks-and-reports.yml
