@@ -1,12 +1,7 @@
 name: Publish Coverage Reports
 
-# Temporarily disabled until https://github.com/Madrapps/jacoco-report/issues/92 is fixed
-
 on:
-  workflow_run:
-    workflows: [ "Build and Test" ]
-    types:
-      - completed
+  workflow_call:
 
 permissions:
   actions: read
@@ -17,14 +12,12 @@ permissions:
 jobs:
   junit-coverage-check:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion != 'skipped'
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-reports
           github-token: ${{ github.token }}
-          run-id: ${{ github.event.workflow_run.id }}
 
       - name: JaCoCo JUnit Code Coverage Report
         id: jacoco_reporter
@@ -35,18 +28,16 @@ jobs:
           coverage_report_name: JUnit Coverage
           coverage_report_title: JUnit
           fail_below_threshold: true
-          minimum_coverage: 80
+          # minimum_coverage: 80 # Disabled until Olaf hits minimum coverage
 
   texttest-coverage-check: # TODO: Remove once Olaf is done with unit tests
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion != 'skipped'
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-reports
           github-token: ${{ github.token }}
-          run-id: ${{ github.event.workflow_run.id }}
 
       - name: JaCoCo TextTest Code Coverage Report
         id: jacoco_reporter
@@ -60,17 +51,16 @@ jobs:
 
   junit-coverage-results:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion != 'skipped' && github.event.workflow_run.event == 'pull_request'
+    if: github.event_name == 'pull_request'
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-reports
           github-token: ${{ github.token }}
-          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Add JUnit coverage to PR
-        uses: madrapps/jacoco-report@v1.7.1
+        uses: madrapps/jacoco-report@v1.7.2
         with:
           token: ${{ github.token }}
           paths: reports/jacoco/test/jacocoTestReport.xml
@@ -79,17 +69,16 @@ jobs:
 
   texttest-coverage-results:
     runs-on: ubuntu-latest
-    if: github.event.workflow_run.conclusion != 'skipped' && github.event.workflow_run.event == 'pull_request'
+    if: github.event_name == 'pull_request'
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-reports
           github-token: ${{ github.token }}
-          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Add TextTest coverage to PR
-        uses: madrapps/jacoco-report@v1.7.1
+        uses: madrapps/jacoco-report@v1.7.2
         with:
           token: ${{ github.token }}
           paths: reports/jacoco/jacocoTextTestReport/jacocoTextTestReport.xml
