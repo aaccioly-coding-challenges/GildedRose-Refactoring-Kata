@@ -3,6 +3,7 @@
   "extends": [
     "config:best-practices",
     ":automergeAll",
+    ":enableVulnerabilityAlertsWithLabel(security-update)",
     ":label(dependencies)"
   ],
   "prHourlyLimit": 0
