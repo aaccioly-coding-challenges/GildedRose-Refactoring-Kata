@@ -6,5 +6,8 @@
     ":enableVulnerabilityAlertsWithLabel(security-update)",
     ":label(dependencies)"
   ],
-  "prHourlyLimit": 0
+  "prHourlyLimit": 0,
+  "vulnerabilityAlerts": {
+    "vulnerabilityFixStrategy": "highest"
+  }
 }
