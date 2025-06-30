@@ -32,8 +32,8 @@ jobs:
         uses: github/codeql-action/init@39edc492dbe16b1465b0cafca41432d857bdb31a # v3
         with:
           languages: ${{ matrix.language }}
-          # Use 'autobuild' to automatically build Java/Kotlin projects
-          build-mode: autobuild
+          # Use 'autobuild' only for Java/Kotlin projects, 'none' for others
+          build-mode: ${{ matrix.language == 'java-kotlin' && 'autobuild' || 'none' }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@39edc492dbe16b1465b0cafca41432d857bdb31a # v3
