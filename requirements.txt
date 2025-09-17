@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 #
-psutil==7.0.0
+psutil==7.1.0
     # via texttest
 texttest==4.4.4
     # via -r requirements.in
