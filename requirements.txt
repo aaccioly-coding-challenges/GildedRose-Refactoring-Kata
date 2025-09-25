@@ -6,5 +6,5 @@
 #
 psutil==7.1.0
     # via texttest
-texttest==4.4.4
+texttest==4.4.5
     # via -r requirements.in
