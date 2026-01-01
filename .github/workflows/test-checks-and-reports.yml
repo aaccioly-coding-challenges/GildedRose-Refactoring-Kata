@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Publish JUnit report
-        uses: dorny/test-reporter@6efb86e1f884696e9a2bbd33e43da8777c8e469c
+        uses: dorny/test-reporter@68967725f76a7cdb7990818860d93f4242bff961
         with:
           artifact: build-reports
           name: JUnit Results
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Publish TextTest report
-        uses: dorny/test-reporter@6efb86e1f884696e9a2bbd33e43da8777c8e469c
+        uses: dorny/test-reporter@68967725f76a7cdb7990818860d93f4242bff961
         with:
           artifact: build-reports
           name: TextTest Results
